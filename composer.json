@@ -1,0 +1,18 @@
+{
+  "name": "bmadzar/scraper",
+  "description": "A demo project: scrapes a URL and provides a few basic statistics",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Boris Madzar",
+      "email": "boris.madzar@gmail.com"
+    }
+  ],
+  "require": {
+    "amphp/artax": "3.0.14",
+    "ext-dom": "*",
+    "ext-phalcon": "*",
+    "ext-libxml": "*"
+  }
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Scraper Demo</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+    <header class="my-3">
+        <h1>Scraper Demo</h1>
+    </header>
+
+    <div class="row">
+        <div class="col-xs-12 col-lg-8">
+            <form method="get" id="scrape-form" class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <div class="form-group">
+                                <label for="scrape-url">URL</label>
+                                <input type="url" class="form-control" id="scrape-url" name="url"
+                                       value="<?= $this->escaper->escapeHtml($defaultUrl) ?>"
+                                       placeholder="e.g. http://www.example.com/"
+                                       required="required">
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-md-3">
+                            <div class="form-group">
+                                <label for="scrape-url">Max. Pages</label>
+                                <input type="number" class="form-control" id="scrape-page-count" name="pageCount"
+                                       value="<?= $this->escaper->escapeHtml($defaultPageCount) ?>">
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-md-3">
+                            <div class="form-group col-xs-3">
+                                <label for="scrape-url">Max. Depth</label>
+                                <input type="number" class="form-control" id="scrape-depth" name="depth"
+                                       value="<?= $this->escaper->escapeHtml($defaultDepth) ?>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Scrape</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 my-3" id="scrape-results-wrapper">
+        </div>
+    </div>
+
+    <footer class="border-top py-2">
+        <small><a href="https://borismadzar.com/">borismadzar.com</a></small>
+    </footer>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+<script>
+    (function () {
+        let originalTitle = document.title;
+
+        document.getElementById('scrape-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            let scrapeUrl = document.getElementById('scrape-url').value;
+            let pageCount = document.getElementById('scrape-page-count').value;
+            let depth = document.getElementById('scrape-depth').value;
+            let wrapper = document.getElementById('scrape-results-wrapper');
+
+            wrapper.innerHTML = '';
+
+            if (scrapeUrl) {
+                document.title = originalTitle + ' - ' + scrapeUrl;
+
+                window.fetch('/scrape?url=' + encodeURIComponent(scrapeUrl) + '&pageCount=' + encodeURIComponent(pageCount) + '&maxDepth=' + encodeURIComponent(depth))
+                    .then(resp => resp.text())
+                    .then(text => wrapper.innerHTML = text)
+                    .catch(() => wrapper.innerHTML = '<div class="alert alert-danger" role="alert">Could not fetch response from server.</div>');
+            } else {
+                document.title = originalTitle;
+            }
+        });
+    })();
+</script>
+
+</body>
+</html>

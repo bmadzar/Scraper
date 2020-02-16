@@ -1,0 +1,26 @@
+<h2 class="my-3">Results</h2>
+<ul id="scrape-results-list">
+    <li>Pages crawled: <b><?= $this->escaper->escapeHtml($count) ?></b></li>
+    <li>Unique images: <b><?= $this->escaper->escapeHtml($images) ?></b></li>
+    <li>Unique internal links: <b><?= $this->escaper->escapeHtml($linksInternal) ?></b></li>
+    <li>Unique external links: <b><?= $this->escaper->escapeHtml($linksExternal) ?></b></li>
+    <li>Avg. load time: <b><?= \sprintf('%.4F', $loadTime) ?> seconds</b></li>
+    <li>Avg. word count: <b><?= $this->escaper->escapeHtml($wordCount) ?></b></li>
+    <li>Avg. title length: <b><?= $this->escaper->escapeHtml($titleLength) ?></b></li>
+</ul>
+<table id="scrape-results-table" class="table table-striped">
+    <thead>
+    <tr>
+        <th>Page</th>
+        <th><span class="d-none d-md-inline">HTTP </span>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($pageList as $pageData) { ?>
+        <tr>
+            <td><a href="<?= $this->escaper->escapeHtml($pageData['url']) ?>" target="_blank"><?= $this->escaper->escapeHtml($pageData['url']) ?></a></td>
+            <td><?= $this->escaper->escapeHtml($pageData['responseCode']) ?></td>
+        </tr>
+    <?php } ?>
+    </tbody>
+</table>
