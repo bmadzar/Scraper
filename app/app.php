@@ -29,13 +29,13 @@ $app->get('/scrape', function () use ($app) {
 
     if ($pageCount < 0) {
         $pageCount = 5;
-    } elseif ($pageCount === null) {
+    } elseif ($pageCount === null || $pageCount > 25) {
         $pageCount = 25;
     }
 
     if ($maxDepth < 0) {
         $maxDepth = 5;
-    } elseif ($pageCount === null) {
+    } elseif ($maxDepth === null || $maxDepth > 25) {
         $maxDepth = 25;
     }
 
