@@ -90,6 +90,8 @@
             if (scrapeUrl) {
                 document.title = originalTitle + ' - ' + scrapeUrl;
 
+                wrapper.innerHTML = '<div class="spinner-border text-secondary my-4 ml-4" role="status"><span class="sr-only">Loading...</span></div>';
+
                 window.fetch('/scrape?url=' + encodeURIComponent(scrapeUrl) + '&pageCount=' + encodeURIComponent(pageCount) + '&maxDepth=' + encodeURIComponent(depth))
                     .then(resp => resp.text())
                     .then(text => wrapper.innerHTML = text)
